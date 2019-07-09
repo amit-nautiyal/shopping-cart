@@ -37,14 +37,7 @@ class App extends Component {
     super();
     this.state = {
       name: "React",
-      cart: [
-        {
-          id: 5,
-          name: "Hacksaw",
-          price: 18.45,
-          quantity: 1
-        }
-      ]
+      cart: []
     };
     this.handleAddFuc = this.handleAddFuc.bind(this);
   }

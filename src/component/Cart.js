@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Cart = props => {
+  console.log("props.cartItems-----", props.cartItems);
   return (
     <aside className="cart">
       <header className="cart__header">Cart</header>
@@ -22,9 +23,12 @@ const Cart = props => {
             </div>
           </div>
         ))}
-
-        <div>Remove</div>
-        <div>Total</div>
+        {props.cartItems.length > 0 && (
+          <>
+            <div>Remove</div>
+            <div>Total</div>
+          </>
+        )}
       </section>
     </aside>
   );
