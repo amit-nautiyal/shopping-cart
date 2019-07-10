@@ -7,27 +7,22 @@ import Cart from "./component/Cart";
 
 const products = [
   {
-    id: 1,
     name: "Sledgehammer",
     price: 125.75
   },
   {
-    id: 2,
     name: "Axe",
     price: 190.5
   },
   {
-    id: 3,
     name: "Bandsaw",
     price: 562.13
   },
   {
-    id: 4,
     name: "Chisel",
     price: 12.9
   },
   {
-    id: 5,
     name: "Hacksaw",
     price: 18.45
   }
@@ -71,7 +66,7 @@ class App extends Component {
 
   handleAddFuc(product) {
     const existingProductIndex = this.state.cart.findIndex(
-      p => p.id === product.id
+      p => p.name === product.name
     );
 
     let calculateTotal = this.state.total + product.price * product.quantity;
@@ -109,7 +104,7 @@ class App extends Component {
         <Layout>
           <ProductList>
             {products.map(p => (
-              <Product key={p.id} {...p} addFunc={this.handleAddFuc} />
+              <Product key={p.name} {...p} addFunc={this.handleAddFuc} />
             ))}
           </ProductList>
           <Cart
