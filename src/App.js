@@ -5,6 +5,7 @@ import ProductList from "./component/ProductList";
 import Product from "./component/Product";
 import Cart from "./component/Cart";
 
+// Products array
 const products = [
   {
     name: "Sledgehammer",
@@ -31,7 +32,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      cart: [],
+      cart: [], // empty array to hold cart items
       total: 0
     };
     this.handleAddFuc = this.handleAddFuc.bind(this);
@@ -39,6 +40,7 @@ class App extends Component {
   }
 
   componentWillMount() {
+    // Fetch products and total stored in localStorage
     const storedProducts = JSON.parse(localStorage.getItem("products"));
     const storedTotal = JSON.parse(localStorage.getItem("total"));
     if (storedProducts !== null && storedTotal !== null) {
@@ -49,11 +51,13 @@ class App extends Component {
     }
   }
   componentDidUpdate() {
+    // Store products and total in localStorage
     localStorage.setItem("products", JSON.stringify(this.state.cart));
     localStorage.setItem("total", JSON.stringify(this.state.total));
   }
 
   handleRemoveFuc(name, price, quantity) {
+    // function to remove item from the cart and update the total
     const existingProductIndex = this.state.cart.filter(p => p.name !== name);
     let calculateTotal = this.state.total - price * quantity;
     this.setState({
@@ -65,7 +69,9 @@ class App extends Component {
   }
 
   handleAddFuc(product) {
+    // function to add product to the cart and also update total.
     const existingProductIndex = this.state.cart.findIndex(
+      // this function check if the product already exist in the cart or not
       p => p.name === product.name
     );
 
@@ -75,6 +81,7 @@ class App extends Component {
       total: calculateTotal
     });
 
+    // if the product already exist we update the quantity filed else we add new product to the cart
     if (existingProductIndex >= 0) {
       const cartProducts = this.state.cart.slice();
 
