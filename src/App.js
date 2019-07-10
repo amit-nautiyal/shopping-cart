@@ -36,8 +36,8 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
-      name: "React",
-      cart: []
+      cart: [],
+      total: 0
     };
     this.handleAddFuc = this.handleAddFuc.bind(this);
     this.handleRemoveFuc = this.handleRemoveFuc.bind(this);
@@ -45,18 +45,25 @@ class App extends Component {
 
   componentWillMount() {
     const storedProducts = JSON.parse(localStorage.getItem("products"));
-    if (storedProducts !== null) {
+    const storedTotal = JSON.parse(localStorage.getItem("total"));
+    if (storedProducts !== null && storedTotal !== null) {
       this.setState({
-        cart: storedProducts
+        cart: storedProducts,
+        total: storedTotal
       });
     }
   }
   componentDidUpdate() {
     localStorage.setItem("products", JSON.stringify(this.state.cart));
+    localStorage.setItem("total", JSON.stringify(this.state.total));
   }
 
-  handleRemoveFuc(name) {
+  handleRemoveFuc(name, price, quantity) {
     const existingProductIndex = this.state.cart.filter(p => p.name !== name);
+    let calculateTotal = this.state.total - price * quantity;
+    this.setState({
+      total: calculateTotal
+    });
     this.setState({
       cart: existingProductIndex
     });
@@ -66,6 +73,12 @@ class App extends Component {
     const existingProductIndex = this.state.cart.findIndex(
       p => p.id === product.id
     );
+
+    let calculateTotal = this.state.total + product.price * product.quantity;
+
+    this.setState({
+      total: calculateTotal
+    });
 
     if (existingProductIndex >= 0) {
       const cartProducts = this.state.cart.slice();
@@ -99,7 +112,11 @@ class App extends Component {
               <Product key={p.id} {...p} addFunc={this.handleAddFuc} />
             ))}
           </ProductList>
-          <Cart cartItems={this.state.cart} removeFunc={this.handleRemoveFuc} />
+          <Cart
+            cartItems={this.state.cart}
+            removeFunc={this.handleRemoveFuc}
+            total={this.state.total}
+          />
         </Layout>
       </main>
     );
