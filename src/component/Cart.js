@@ -2,7 +2,6 @@ import React from "react";
 import PropTypes from "prop-types";
 
 const Cart = props => {
-  console.log("props.cartItems-----", props.cartItems);
   return (
     <aside className="cart">
       <header className="cart__header">Cart</header>
@@ -21,11 +20,16 @@ const Cart = props => {
               <span>Qty:</span>
               <span>{c.quantity}</span>
             </div>
+            <span
+              className="remove-link"
+              onClick={() => props.removeFunc(c.name)}
+            >
+              <em>Remove item</em>
+            </span>
           </div>
         ))}
         {props.cartItems.length > 0 && (
           <>
-            <div>Remove</div>
             <div>Total</div>
           </>
         )}
@@ -35,7 +39,8 @@ const Cart = props => {
 };
 
 Cart.propTypes = {
-  cartItems: PropTypes.array.isRequired
+  cartItems: PropTypes.array.isRequired,
+  removeFunc: PropTypes.func.isRequired
 };
 
 export default Cart;

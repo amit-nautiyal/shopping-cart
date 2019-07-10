@@ -40,6 +40,26 @@ class App extends Component {
       cart: []
     };
     this.handleAddFuc = this.handleAddFuc.bind(this);
+    this.handleRemoveFuc = this.handleRemoveFuc.bind(this);
+  }
+
+  componentWillMount() {
+    const storedProducts = JSON.parse(localStorage.getItem("products"));
+    if (storedProducts !== null) {
+      this.setState({
+        cart: storedProducts
+      });
+    }
+  }
+  componentDidUpdate() {
+    localStorage.setItem("products", JSON.stringify(this.state.cart));
+  }
+
+  handleRemoveFuc(name) {
+    const existingProductIndex = this.state.cart.filter(p => p.name !== name);
+    this.setState({
+      cart: existingProductIndex
+    });
   }
 
   handleAddFuc(product) {
@@ -79,7 +99,7 @@ class App extends Component {
               <Product key={p.id} {...p} addFunc={this.handleAddFuc} />
             ))}
           </ProductList>
-          <Cart cartItems={this.state.cart} />
+          <Cart cartItems={this.state.cart} removeFunc={this.handleRemoveFuc} />
         </Layout>
       </main>
     );
