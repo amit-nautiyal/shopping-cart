@@ -107,7 +107,7 @@ class App extends Component {
   render() {
     return (
       <main className="app">
-        <header className="app-header">Shopping Cart</header>
+        <header className="app-header">React Shopping Cart with Local Storage</header>
         <Layout>
           <ProductList>
             {products.map(p => (
